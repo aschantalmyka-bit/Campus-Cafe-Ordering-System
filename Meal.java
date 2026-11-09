@@ -1,17 +1,13 @@
-
-/**
- * Represents a rice meal sold in the campus cafe.
- *
- * @author Your Name
+/**Represents a rice meal sold at the campus cafe.
+ * A meal may be upsized and may include extra side dishes.
+ * @author Dangculos Aschantal Myka B.
  * @version 1.0
  */
 public class Meal extends MenuItem {
-
     private boolean upsized;
     private int extraSides;
 
-    /**
-     * Creates a meal with default values.
+    /** Creates a regular meal with no extra sides.
      */
     public Meal() {
         super();
@@ -19,14 +15,12 @@ public class Meal extends MenuItem {
         extraSides = 0;
     }
 
-    /**
-     * Creates a meal with specific information.
-     *
-     * @param name meal name
-     * @param basePrice meal base price
-     * @param itemCode meal code
-     * @param upsized indicates if the meal is upsized
-     * @param extraSides number of extra sides
+    /**Creates a meal with supplied details.
+     * @param name the meal name
+     * @param basePrice the original price
+     * @param itemCode the meal code
+     * @param upsized true if upsized
+     * @param extraSides the number of extra sides
      */
     public Meal(String name, double basePrice, String itemCode,
                 boolean upsized, int extraSides) {
@@ -36,80 +30,67 @@ public class Meal extends MenuItem {
         setExtraSides(extraSides);
     }
 
-    /**
-     * Computes the final meal price.
-     
-     * @return final meal price
+    /**Computes the meal price.
+     * @return the computed meal price
      */
     @Override
     public double computePrice() {
-        double price = basePrice;
+        double price = getBasePrice();
 
         if (upsized) {
             price += 20;
         }
 
         price += 12 * extraSides;
-
         return price;
     }
 
-    /**
-     * Returns the meal description.
-     *
-     * @return meal description
+    /** Returns the meal description.
+     * @return the meal description
      */
     @Override
     public String getDescription() {
-        String status;
+        String sizeDescription;
 
         if (upsized) {
-            status = "Upsized";
+            sizeDescription = "Upsized";
         } else {
-            status = "Regular";
+            sizeDescription = "Regular";
         }
 
-        return super.getDescription() + ", " +
-               status + ", " + extraSides + " sides";
+        return super.getDescription() + " " + sizeDescription
+                + ", " + extraSides + " sides";
     }
 
-    /*
-     * Checks whether the meal is upsized.
-     *
+    /** Checks whether the meal is upsized.
      * @return true if upsized
      */
     public boolean isUpsized() {
         return upsized;
     }
 
-    /**
-     * Sets the meal size status.
-     *
-     * @param upsized true for upsized
+    /** Changes the meal size status.
+     * @param upsized true to upsize the meal
      */
     public void setUpsized(boolean upsized) {
         this.upsized = upsized;
     }
 
-    /**
-     * Gets the number of extra sides.
-     *
-     * @return number of extra sides
+    /** Returns the number of extra sides.
+     * @return the number of extra sides
      */
     public int getExtraSides() {
         return extraSides;
     }
 
-    /**
-     * Sets the number of extra sides.
-     *
-     * @param extraSides number of sides
+    /** Changes the number of extra sides.
+     * @param extraSides the new number of extra sides
      */
     public void setExtraSides(int extraSides) {
         if (extraSides >= 0) {
             this.extraSides = extraSides;
         } else {
-            System.out.println("Error: Extra sides cannot be negative.");
+            System.out.println("Error: extra sides cannot be negative.");
         }
     }
 }
