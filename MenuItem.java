@@ -1,17 +1,18 @@
-
 /**
- * Represents the common properties of all cafe menu items.
+ * Represents a general menu item sold at the campus cafe.
+ * This abstract class stores common item information.
  *
- * @author Your Name
+ * @author Dangculos Aschantal Myka B.
  * @version 1.0
  */
 public abstract class MenuItem {
-
-    protected String name;
-    protected double basePrice;
+    private String name;
+    private double basePrice;
     private String itemCode;
 
-    
+    /**
+     * Creates a menu item with default values.
+     */
     public MenuItem() {
         name = "Unnamed Item";
         basePrice = 0.0;
@@ -19,62 +20,72 @@ public abstract class MenuItem {
     }
 
     /**
-     * Creates a menu item using given information.
+     * Creates a menu item with supplied details.
+     *
      * @param name the item name
-     * @param basePrice the basic price
+     * @param basePrice the original price
      * @param itemCode the item code
      */
     public MenuItem(String name, double basePrice, String itemCode) {
-        this.name = name;
-        this.basePrice = 0.0;
-        this.itemCode = itemCode;
-        setBasePrice(basePrice);
+        this();
+
+        if (name != null && !name.trim().isEmpty()) {
+            this.name = name.trim();
+        } else {
+            System.out.println("Error: item name cannot be empty.");
+        }
+
+        if (basePrice >= 0) {
+            this.basePrice = basePrice;
+        } else {
+            System.out.println("Error: base price cannot be negative.");
+        }
+
+        if (itemCode != null && !itemCode.trim().isEmpty()) {
+            this.itemCode = itemCode.trim();
+        } else {
+            System.out.println("Error: item code cannot be empty.");
+        }
     }
 
-    /**
-     * Computes the final price of the menu item.
+    /**Calculates the final price of the menu item.
      * @return the computed price
      */
     public abstract double computePrice();
 
-    /**
-     * Returns the item's name and code.
-     * @return item description
+    /** Returns the basic item description.
+     * @return the item description
      */
     public String getDescription() {
         return name + " [" + itemCode + "]";
     }
 
-    /**
-     * Gets the item name.
-     * @return item name
+    /**Returns the item name.
+     * @return the item name
      */
     public String getName() {
         return name;
     }
 
-    /**
-     * Sets the item name.
+    /** Changes the item name.
      * @param name the new item name
      */
     public void setName(String name) {
-        if (name != null && !name.isEmpty()) {
-            this.name = name;
+        if (name != null && !name.trim().isEmpty()) {
+            this.name = name.trim();
         } else {
-            System.out.println("Error: Invalid item name.");
+            System.out.println("Error: item name cannot be empty.");
         }
     }
 
-    /**
-     * Gets the base price.
-     * @return base price
+    /** Returns the original item price.
+     * @return the base price
      */
     public double getBasePrice() {
         return basePrice;
     }
 
-    /**
-     * Sets the base price if it is not negative.
+    /** Changes the base price.
      * @param basePrice the new base price
      */
     public void setBasePrice(double basePrice) {
@@ -85,23 +96,21 @@ public abstract class MenuItem {
         }
     }
 
-    /**
-     * Gets the item code.
-     * @return item code
+    /** Returns the item code.
+     * @return the item code
      */
     public String getItemCode() {
         return itemCode;
     }
 
-    /**
-     * Sets the item code.
+    /**Changes the item code.
      * @param itemCode the new item code
      */
     public void setItemCode(String itemCode) {
-        if (itemCode != null && !itemCode.isEmpty()) {
-            this.itemCode = itemCode;
+        if (itemCode != null && !itemCode.trim().isEmpty()) {
+            this.itemCode = itemCode.trim();
         } else {
-            System.out.println("Error: Invalid item code.");
+            System.out.println("Error: item code cannot be empty.");
         }
     }
 }
