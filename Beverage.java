@@ -1,111 +1,70 @@
-/** Represents a general menu item sold at the campus cafe.
- * This abstract class stores common item information.
+/** Represents a drink sold at the campus cafe.
+ * Its price depends on the selected size.
  * @author Dangculos Aschantal Myka B.
- * @version 1.0
- */
-public abstract class MenuItem {
-    private String name;
-    private double basePrice;
-    private String itemCode;
+ * @version 1.0*/
+public class Beverage extends MenuItem {
+    private String size;
 
-    /**Creates a menu item with default values.
+    /** Creates a small beverage with default details.
      */
-    public MenuItem() {
-        name = "Unnamed Item";
-        basePrice = 0.0;
-        itemCode = "N/A";
+    public Beverage() {
+        super();
+        size = "S";
     }
 
-    /** Creates a menu item with supplied details.
-     * @param name the item name
+    /**Creates a beverage with supplied details.
+     * @param name the beverage name
      * @param basePrice the original price
-     * @param itemCode the item code
+     * @param itemCode the beverage code
+     * @param size the beverage size
      */
-    public MenuItem(String name, double basePrice, String itemCode) {
-        this();
-
-        if (name != null && !name.trim().isEmpty()) {
-            this.name = name.trim();
-        } else {
-            System.out.println("Error: item name cannot be empty.");
-        }
-
-        if (basePrice >= 0) {
-            this.basePrice = basePrice;
-        } else {
-            System.out.println("Error: base price cannot be negative.");
-        }
-
-        if (itemCode != null && !itemCode.trim().isEmpty()) {
-            this.itemCode = itemCode.trim();
-        } else {
-            System.out.println("Error: item code cannot be empty.");
-        }
+    public Beverage(String name, double basePrice,
+                    String itemCode, String size) {
+        super(name, basePrice, itemCode);
+        this.size = "S";
+        setSize(size);
     }
 
-    /** Calculates the final price of the menu item.
+    /** Computes the beverage price based on its size.
      * @return the computed price
      */
-    public abstract double computePrice();
+    @Override
+    public double computePrice() {
+        if (size.equals("M")) {
+            return getBasePrice() + 15;
+        } else if (size.equals("L")) {
+            return getBasePrice() + 25;
+        } else {
+            return getBasePrice();
+        }
+    }
 
-    /** Returns the basic item description.
-     * @return the item description
+    /** Returns the beverage description.
+     * @return the beverage description
      */
+    @Override
     public String getDescription() {
-        return name + " [" + itemCode + "]";
+        return super.getDescription() + " Size: " + size;
     }
 
-    /** Returns the item name.
-     * @return the item name
+    /** Returns the beverage size.
+     * @return the beverage size
      */
-    public String getName() {
-        return name;
+    public String getSize() {
+        return size;
     }
 
-    /** Changes the item name.
-     * @param name the new item name
+    /**Changes the beverage size.
+     * @param size the new size: S, M, or L
      */
-    public void setName(String name) {
-        if (name != null && !name.trim().isEmpty()) {
-            this.name = name.trim();
+    public void setSize(String size) {
+        if (size != null &&
+            (size.equalsIgnoreCase("S")
+            || size.equalsIgnoreCase("M")
+            || size.equalsIgnoreCase("L"))) {
+            this.size = size.toUpperCase();
         } else {
-            System.out.println("Error: item name cannot be empty.");
-        }
-    }
-
-    /** Returns the original item price.
-     * @return the base price
-     */
-    public double getBasePrice() {
-        return basePrice;
-    }
-
-    /** Changes the base price.
-     * @param basePrice the new base price
-     */
-    public void setBasePrice(double basePrice) {
-        if (basePrice >= 0) {
-            this.basePrice = basePrice;
-        } else {
-            System.out.println("Error: base price cannot be negative.");
-        }
-    }
-
-    /**Returns the item code.
-     * @return the item code
-     */
-    public String getItemCode() {
-        return itemCode;
-    }
-
-    /** Changes the item code.
-     * @param itemCode the new item code
-     */
-    public void setItemCode(String itemCode) {
-        if (itemCode != null && !itemCode.trim().isEmpty()) {
-            this.itemCode = itemCode.trim();
-        } else {
-            System.out.println("Error: item code cannot be empty.");
+            System.out.println("Error: size must be S, M, or L.");
         }
     }
 }
