@@ -1,223 +1,66 @@
-
 /**
- * Represents a cafe order containing a customer and up to three items.
- *
- * @author Your Name
+ * Represents a baked item sold at the campus cafe.
+ * A pastry may be warmed for an additional fee.
+ * @author Dangculos Aschantal Myka B.
  * @version 1.0
  */
-public class Order {
+public class Pastry extends MenuItem {
+    private boolean warmed;
 
-    private Customer customer;
-    private MenuItem item1;
-    private MenuItem item2;
-    private MenuItem item3;
-    private int itemCount;
-    private String orderId;
-
-    private double voucherAmount;
-    private boolean pointsAwarded;
-
-    /* Creates an order for a customer.
-     * @param orderId unique order identification
-     * @param customer customer placing the order
+    /**Creates a pastry that is not warmed.
      */
-    public Order(String orderId, Customer customer) {
-        this.orderId = orderId;
-        this.customer = customer;
-        itemCount = 0;
-        voucherAmount = 0;
-        pointsAwarded = false;
+    public Pastry() {
+        super();
+        warmed = false;
     }
 
-    /* Adds a menu item to the first available slot.
-     * @param item menu item to add
-     * @return true if added successfully
+    /** Creates a pastry with supplied details.
+     * @param name the pastry name
+     * @param basePrice the original price
+     * @param itemCode the pastry code
+     * @param warmed true if warmed
      */
-    public boolean addItem(MenuItem item) {
-
-        if (item == null) {
-            System.out.println("Error: Cannot add an empty item.");
-            return false;
-        }
-
-        if (itemCount >= 3) {
-            System.out.println(
-                "Order is full. Cannot add " +
-                item.getDescription() + "."
-            );
-            return false;
-        } else if (item1 == null) {
-            item1 = item;
-            itemCount++;
-            return true;
-        } else if (item2 == null) {
-            item2 = item;
-            itemCount++;
-            return true;
-        } else if (item3 == null) {
-            item3 = item;
-            itemCount++;
-            return true;
-        }
-
-        return false;
+    public Pastry(String name, double basePrice,
+                  String itemCode, boolean warmed) {
+        super(name, basePrice, itemCode);
+        this.warmed = warmed;
     }
 
-    /**
-     * Computes the subtotal of all ordered items.
-     *
-     * @return total price before discounts
+    /**Computes the pastry price.
+     * @return the computed pastry price
      */
-    public double computeSubtotal() {
-        double subtotal = 0;
-
-        if (item1 != null) {
-            subtotal += item1.computePrice();
+    @Override
+    public double computePrice() {
+        if (warmed) {
+            return getBasePrice() + 10;
+        } else {
+            return getBasePrice();
         }
-
-        if (item2 != null) {
-            subtotal += item2.computePrice();
-        }
-
-        if (item3 != null) {
-            subtotal += item3.computePrice();
-        }
-
-        return subtotal;
     }
 
-    /*Computes the total with student discount if applicable.
-     
-     * @return final amount after discount
+    /**Returns the pastry description.
+     * @return the pastry description
      */
-    public double computeTotal() {
-        double subtotal = computeSubtotal();
-        double discount = 0;
-
-        voucherAmount = 0;
-
-        if (customer.isStudent()) {
-            discount = subtotal * 0.10;
+    @Override
+    public String getDescription() {
+        if (warmed) {
+            return super.getDescription() + " (Warmed)";
+        } else {
+            return super.getDescription() + " (Not warmed)";
         }
-
-        return subtotal - discount;
     }
 
-    /* Computes the total after student discount and voucher.
-     * @param voucher voucher amount
-     * @return final total, never below zero
+    /**Checks whether the pastry is warmed.
+     * @return true if warmed
      */
-    public double computeTotal(double voucher) {
-        double subtotal = computeSubtotal();
-        double discount = 0;
-
-        if (customer.isStudent()) {
-            discount = subtotal * 0.10;
-        }
-
-        if (voucher < 0) {
-            System.out.println("Error: Voucher cannot be negative.");
-            voucher = 0;
-        }
-
-        voucherAmount = voucher;
-
-        double total = subtotal - discount - voucherAmount;
-
-        if (total < 0) {
-            total = 0;
-        }
-
-        return total;
+    public boolean isWarmed() {
+        return warmed;
     }
 
-    /**
-     * Prints the order receipt and updates loyalty points.
+    /** Changes the warming status.
+     * @param warmed true to warm the pastry
      */
-    public void printReceipt() {
-
-        double subtotal = computeSubtotal();
-        double discount = 0;
-
-        if (customer.isStudent()) {
-            discount = subtotal * 0.10;
-        }
-
-        double total = subtotal - discount - voucherAmount;
-
-        if (total < 0) {
-            total = 0;
-        }
-
-        System.out.println("\nOrder #" + orderId +
-                           " - " + customer.getName() +
-                           (customer.isStudent() ? " (Student)" : ""));
-
-        if (item1 != null) {
-            System.out.printf("  %-28s %8.2f%n",
-                item1.getDescription(), item1.computePrice());
-        }
-
-        if (item2 != null) {
-            System.out.printf("  %-28s %8.2f%n",
-                item2.getDescription(), item2.computePrice());
-        }
-
-        if (item3 != null) {
-            System.out.printf("  %-28s %8.2f%n",
-                item3.getDescription(), item3.computePrice());
-        }
-
-        System.out.printf("  Subtotal:                  %.2f%n",
-                          subtotal);
-
-        if (discount > 0) {
-            System.out.printf("  Student discount (10%%):  -%.2f%n",
-                              discount);
-        }
-
-        if (voucherAmount > 0) {
-            System.out.printf("  Voucher:                  -%.2f%n",
-                              voucherAmount);
-        }
-
-        System.out.printf("  TOTAL:                     %.2f%n",
-                          total);
-
-        // Award points only once per order receipt.
-        if (!pointsAwarded) {
-            customer.addPoints(total);
-            pointsAwarded = true;
-        }
-
-        System.out.println("  Loyalty points: " +
-                           customer.getLoyaltyPoints());
+    public void setWarmed(boolean warmed) {
+        this.warmed = warmed;
     }
-
-    /**
-     * Gets the order identification.
-     *
-     * @return order ID
-     */
-    public String getOrderId() {
-        return orderId;
-    }
-
-    /**
-     * Gets the customer who placed the order.
-     *
-     * @return customer object
-     */
-    public Customer getCustomer() {
-        return customer;
-    }
-
-    /**
-     * Gets the number of items in the order.
-     *
-     * @return item count
-     */
-    public int getItemCount() {
-        return itemCount;
-    }
-}
+     }
