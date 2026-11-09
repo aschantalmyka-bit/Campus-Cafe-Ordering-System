@@ -1,7 +1,5 @@
-/**
- * Represents a general menu item sold at the campus cafe.
+/** Represents a general menu item sold at the campus cafe.
  * This abstract class stores common item information.
- *
  * @author Dangculos Aschantal Myka B.
  * @version 1.0
  */
@@ -10,8 +8,7 @@ public abstract class MenuItem {
     private double basePrice;
     private String itemCode;
 
-    /**
-     * Creates a menu item with default values.
+    /**Creates a menu item with default values.
      */
     public MenuItem() {
         name = "Unnamed Item";
@@ -19,9 +16,7 @@ public abstract class MenuItem {
         itemCode = "N/A";
     }
 
-    /**
-     * Creates a menu item with supplied details.
-     *
+    /** Creates a menu item with supplied details.
      * @param name the item name
      * @param basePrice the original price
      * @param itemCode the item code
