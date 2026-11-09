@@ -1,68 +1,56 @@
-
-/**
- * Main application for the Campus Cafe Ordering System.
- * Demonstrates Java OOP concepts.
- *
- * @author Your Name
+/**Runs the Campus Cafe Ordering System.
+ * Demonstrates customers, menu items, orders, and receipts.
+ * @author Dangculos Aschantal Myka B.
  * @version 1.0
  */
 public class CafeApp {
 
-    /**
-     * Starts the Campus Cafe Ordering System.
-     *
-     * @param args command line arguments
+    /**Creates the application object.
+     */
+    public CafeApp() {
+        // No setup is needed before main runs.
+    }
+
+    /** Starts the Campus Cafe Ordering System.
+     * @param args command-line arguments
      */
     public static void main(String[] args) {
 
-        // Create customers using different constructors.
-        Customer customer1 =
-            new Customer("Marlita Acibron", true);
+        // Create customers using overloaded constructors.
+        Customer customer1 = new Customer("Ana Reyes", true);
+        Customer customer2 = new Customer();
+        customer2.setName("Ben Cruz");
+        customer2.setStudent(false);
 
-        Customer customer2 =
-            new Customer("Primo Cruz");
-
-        // Create a Beverage using a parameterized constructor.
+        // Create menu items.
         Beverage icedLatte =
-            new Beverage("Iced Latte", 95, "B-01", "L");
+                new Beverage("Iced Latte", 95.00, "B-01", "L");
 
-        // Create a Beverage using the default constructor.
-        Beverage hotChocolate = new Beverage();
-
-        hotChocolate.setName("Hot Chocolate");
-        hotChocolate.setItemCode("B-02");
-
-        // Demonstrate invalid price validation.
-        hotChocolate.setBasePrice(-5);
-
-        // Set the correct price afterward.
-        hotChocolate.setBasePrice(80);
-        hotChocolate.setSize("M");
-
-        // Create a Pastry using a parameterized constructor.
         Pastry ensaymada =
-            new Pastry("Ensaymada", 45, "P-01", true);
+                new Pastry("Ensaymada", 45.00, "P-01", true);
 
-        // Create a Pastry using the default constructor.
-        Pastry cookie = new Pastry();
-
-        cookie.setName("Cookie");
-        cookie.setBasePrice(30);
-        cookie.setItemCode("P-02");
-
-        // Create a Meal using a parameterized constructor.
         Meal chickenAdobo =
-            new Meal("Chicken Adobo", 110, "M-01",
-                     true, 1);
+                new Meal("Chicken Adobo", 110.00, "M-01", true, 1);
 
-        // Create a Meal using the default constructor.
-        Meal beefTapa = new Meal();
+        // Demonstrate default constructors.
+        Beverage defaultBeverage = new Beverage();
+        defaultBeverage.setName("Default Drink");
+        defaultBeverage.setBasePrice(40.00);
+        defaultBeverage.setItemCode("B-99");
+        defaultBeverage.setSize("S");
 
-        beefTapa.setName("Beef Tapa");
-        beefTapa.setBasePrice(130);
-        beefTapa.setItemCode("M-02");
-        beefTapa.setUpsized(false);
-        beefTapa.setExtraSides(0);
+        Pastry defaultPastry = new Pastry();
+        defaultPastry.setName("Plain Donut");
+        defaultPastry.setBasePrice(30.00);
+        defaultPastry.setItemCode("P-99");
+        defaultPastry.setWarmed(false);
+
+        Meal defaultMeal = new Meal();
+        defaultMeal.setName("Regular Rice");
+        defaultMeal.setBasePrice(50.00);
+        defaultMeal.setItemCode("M-99");
+        defaultMeal.setUpsized(false);
+        defaultMeal.setExtraSides(0);
 
         // Create the first order.
         Order order1 = new Order("1001", customer1);
@@ -71,11 +59,28 @@ public class CafeApp {
         order1.addItem(ensaymada);
         order1.addItem(chickenAdobo);
 
-        // Try adding a fourth item.
+        // Demonstrate the three-item limit.
+        Pastry cookie =
+                new Pastry("Cookie", 25.00, "P-02", false);
+
         order1.addItem(cookie);
 
-        // Print first receipt.
+        // Print the first receipt.
         order1.printReceipt();
+
+        // Create another beverage.
+        Beverage hotChocolate = new Beverage();
+        hotChocolate.setName("Hot Chocolate");
+        hotChocolate.setItemCode("B-02");
+        hotChocolate.setSize("M");
+
+        // Demonstrate invalid price validation.
+        hotChocolate.setBasePrice(-5);
+        hotChocolate.setBasePrice(80);
+
+        // Create another meal.
+        Meal beefTapa =
+                new Meal("Beef Tapa", 130.00, "M-02", false, 0);
 
         // Create the second order.
         Order order2 = new Order("1002", customer2);
@@ -83,10 +88,10 @@ public class CafeApp {
         order2.addItem(hotChocolate);
         order2.addItem(beefTapa);
 
-        // Apply a 20-peso voucher.
-        order2.computeTotal(20);
+        // Print the second receipt with a voucher.
+        order2.printReceipt(20.00);
 
-        // Print second receipt.
-        order2.printReceipt();
+        // Demonstrate invalid extra-side validation.
+        defaultMeal.setExtraSides(-2);
     }
 }
