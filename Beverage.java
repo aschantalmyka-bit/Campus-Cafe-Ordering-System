@@ -1,4 +1,3 @@
-
 /**
  * Represents a beverage sold in the campus cafe.
  *
